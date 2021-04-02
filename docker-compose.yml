@@ -1,0 +1,51 @@
+version: "3"
+
+services:
+  web:
+    build: ./web
+    volumes:
+      - ./web:/code
+      - static:/static
+    env_file:
+      - .env
+    restart: always
+    networks:
+      - default
+
+  db:
+    image: postgres
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    networks:
+      - default
+
+  nginx:
+    image: nginx:stable
+    ports:
+      - 8007:80
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - static:/static
+    depends_on:
+      - web
+    networks:
+      - default
+      - nginx-proxy_nginx-proxy
+    restart: always
+    environment:
+      - VIRTUAL_PORT=8007
+      - VIRTUAL_HOST=libwherey.org
+      - LETSENCRYPT_HOST=libwherey.org
+      - LETSENCRYPT_EMAIL=contact@shirleyyin.com
+
+volumes:
+  pg-data:
+    driver: local
+  static:
+    driver: local
+
+networks:
+  default:
+    driver: bridge
+  nginx-proxy_nginx-proxy:
+    external: true
