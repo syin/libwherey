@@ -13,7 +13,7 @@ services:
       - default
 
   db:
-    image: postgres
+    image: mdillon/postgis
     volumes:
       - pg-data:/var/lib/postgresql/data
     networks:

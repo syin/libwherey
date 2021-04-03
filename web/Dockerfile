@@ -1,5 +1,8 @@
 FROM python
 ENV PYTHONUNBUFFERED 1
+
+RUN apt-get update && apt-get install -y libproj-dev gdal-bin libpq-dev libpython3-dev build-essential
+
 RUN mkdir /code
 WORKDIR /code
 COPY requirements.txt /code/
