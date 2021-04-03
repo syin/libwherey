@@ -7,3 +7,4 @@ djangorestframework-gis
 pylint
 pylint-django
 drf-extra-fields
+Pillow
