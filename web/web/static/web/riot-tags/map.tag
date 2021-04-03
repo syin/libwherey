@@ -4,7 +4,7 @@
       <section>
         <h1 class="site-title">lib(where)y</h1>
 
-        <button type="button" class="near-me" onclick={ nearMe }>near me</button>
+        <a href="" class="near-me" onclick={ nearMe }><span>view libraries near me</span></a>
         <div class="library-list">
           <ul>
             <li class='library-entry' each={ library in libraries }>
@@ -15,7 +15,7 @@
         </div>
       </section>
 
-      <footer>Made by <a href="https://shirleyyin.com">Shirley Yin</a> · <a href="">About this app</a></footer>
+      <footer>Made by <a href="https://shirleyyin.com">Shirley Yin</a> · <a href="">About this site</a></footer>
     </aside>
     <main>
       <div id="map"></div>

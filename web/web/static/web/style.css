@@ -51,16 +51,23 @@ footer {
 
 .site-title {
   margin: 0;
-  color: var(--blushpink)
+  color: var(--blushpink);
+  font-size: 1.8rem;
 }
 
 .near-me {
+  display: block;
   margin: 1rem 0;
-  background-color: var(--darkblue);
-  border: 1px solid var(--white);
-  color: var(--white);
-  cursor: pointer;
   padding: 0.3rem 0.6rem;
+  text-decoration: none;
+}
+
+.near-me>span {
+  text-decoration: underline;
+}
+
+.near-me:before {
+  content: '📍 ';
 }
 
 .library-list ul {
