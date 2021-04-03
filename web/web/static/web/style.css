@@ -15,23 +15,34 @@ html, body {
   background-color: var(--darkblue);
 }
 
+a {
+  color: var(--blushpink);
+}
+
 .wrapper {
   display: grid;
   height: 100%;
-  gap: 1rem;
-  grid-template-columns: 1fr 3fr;
+  gap: 0;
+  grid-template-columns: 2fr 5fr;
   grid-template-areas:
-    "nav content"
+    "sidebar main"
 }
 
-nav {
-  grid-area: nav;
-
+aside {
+  grid-area: sidebar;
   padding: 1rem;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 main {
-  grid-area: content;
+  grid-area: main;
+}
+
+footer {
 }
 
 #map {
@@ -53,17 +64,30 @@ main {
 }
 
 .library-list ul {
-  margin: 0 0 0 1rem;
+  margin: 0;
   padding: 0;
+  list-style-type: none;
 }
 
-.library-list li {
-  padding: 0.2rem;
+.library-entry {
+  padding: 1rem;
+  border: 1px solid var(--white);
+  margin: 0.5rem 0 1rem;
 }
 
-.library-list li:hover {
+.library-entry:before {
+  content: '📚';
+  padding-right: 0.5rem;
+}
+
+.library-entry:hover {
   cursor: pointer;
   color: var(--blushpink);
+}
+
+.library-thumbnail {
+  max-width: 100px;
+  margin-top: 0.5rem;
 }
 
 @media screen and (max-width: 800px) {
@@ -71,8 +95,8 @@ main {
     grid-template-columns: 1fr;
     grid-template-rows: 2fr 1fr;
     grid-template-areas:
-      "content"
-      "nav"
+      "main"
+      "sidebar"
   }
 }
 
@@ -81,7 +105,7 @@ main {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas:
-      "content"
-      "nav"
+      "main"
+      "sidebar"
   }
 }

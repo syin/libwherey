@@ -6,6 +6,7 @@ services:
     volumes:
       - ./web:/code
       - static:/static
+      - media:/code/media
     env_file:
       - .env
     restart: always
@@ -26,6 +27,7 @@ services:
     volumes:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - static:/static
+      - media:/media
     depends_on:
       - web
     networks:
@@ -42,6 +44,8 @@ volumes:
   pg-data:
     driver: local
   static:
+    driver: local
+  media:
     driver: local
 
 networks:

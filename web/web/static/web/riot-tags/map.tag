@@ -1,21 +1,24 @@
 <maptest>
   <div class="wrapper">
-    <nav>
-      <h1 class="site-title">lib(where)y</h1>
+    <aside>
+      <section>
+        <h1 class="site-title">lib(where)y</h1>
 
-      <button type="button" class="near-me" onclick={ nearMe }>near me</button>
-      <div class="library-list">
-        <ul>
-          <li each={ library in libraries }>
-            { library.address }
-          </li>
-        </ul>
-      </div>
-    </nav>
+        <button type="button" class="near-me" onclick={ nearMe }>near me</button>
+        <div class="library-list">
+          <ul>
+            <li class='library-entry' each={ library in libraries }>
+              { library.address }
+              <img class='library-thumbnail' if={ library.photos } src={ library.photos }>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <footer>Made by <a href="https://shirleyyin.com">Shirley Yin</a> · <a href="">About this app</a></footer>
+    </aside>
     <main>
-      <div id="map">
-          test
-      </div>
+      <div id="map"></div>
     </main>
   </div>
 
