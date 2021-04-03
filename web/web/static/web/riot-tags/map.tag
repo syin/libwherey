@@ -7,7 +7,7 @@
       <div class="library-list">
         <ul>
           <li each={ library in libraries }>
-            { library.location }
+            { library.address }
           </li>
         </ul>
       </div>
@@ -23,15 +23,6 @@
   <script>
     const self = this;
     self.libraries = [];
-
-    const testLibraries = [
-    {
-      "location": "abc st & 123 ave",
-    },
-    {
-      "location": "abc st & 123 ave",
-    }
-    ]
 
     self.on('mount', function() {
       initializeMap();
@@ -56,10 +47,15 @@
     }
 
     const getLibraries = function() {
-      // TODO api
-
-      self.libraries = testLibraries;
-      self.update();
+      const apiUrl = `/api/libraries`;
+      fetch(apiUrl, {method: 'GET', mode: 'cors'}).then(response => {
+        response.json().then(data => {
+          self.libraries = data;
+          self.update();
+        });
+      }).catch(error => {
+        console.log('error', error);
+      });
     }
 
   </script>

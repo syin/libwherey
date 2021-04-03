@@ -1,13 +1,14 @@
 from rest_framework import serializers
+from drf_extra_fields.geo_fields import PointField
 
-from web.models import AppModel
-
-# Add your app serializers here.
+from web.models import Library
 
 
-class AppModelSerializer(serializers.ModelSerializer):
-    queryset = AppModel.objects.all()
+class LibrarySerializer(serializers.ModelSerializer):
+    queryset = Library.objects.all()
+
+    location = PointField()
 
     class Meta:
-        model = AppModel
-        fields = ("id",)
+        model = Library
+        fields = ("id", "address", "location")

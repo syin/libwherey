@@ -1,7 +1,11 @@
-from django.db import models
+from django.contrib.gis.db import models
+from django.contrib.gis.db.models import PointField
 
-# Add your Django models here.
 
+class Library(models.Model):
+    location = PointField()
+    address = models.CharField(
+        max_length=255, help_text="Text description of location")
 
-class AppModel(models.Model):
-    pass
+    class Meta:
+        verbose_name_plural = "Libraries"

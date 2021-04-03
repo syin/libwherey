@@ -4,18 +4,18 @@ from rest_framework import generics
 
 from django.shortcuts import render
 
-from web.models import AppModel
-from web.serializers import AppModelSerializer
+from web.models import Library
+from web.serializers import LibrarySerializer
 
 
-class AppModelList(generics.ListCreateAPIView):
-    queryset = AppModel.objects.all()
-    serializer_class = AppModelSerializer
+class LibraryList(generics.ListCreateAPIView):
+    queryset = Library.objects.all()
+    serializer_class = LibrarySerializer
 
 
-class AppModelDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = AppModel.objects.all()
-    serializer_class = AppModelSerializer
+class LibraryDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Library.objects.all()
+    serializer_class = LibrarySerializer
 
 
 def homepage(request):

@@ -8,4 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     url(r"^$", web.views.homepage),
+    url(r"^api/libraries/(?P<pk>[0-9]+)$", web.views.LibraryDetail.as_view()),
+    url(r"^api/libraries$", web.views.LibraryList.as_view()),
+
 ]
