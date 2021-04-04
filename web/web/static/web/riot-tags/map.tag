@@ -33,15 +33,21 @@
       getLibraries();
     })
 
-    nearMe() {
+    nearMe(e) {
+      e.preventDefault();
       console.log('here');
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log('position', position)
+        centerMap(position.coords.latitude, position.coords.longitude);
+        getLibraries(position.coords.latitude, position.coords.longitude);
+      });
     }
 
     onClickSidebar(e) {
       const selectedLibrary = e.item.library;
       console.log("onclicksidebar", selectedLibrary);
 
-      centerMapOnLibrary(selectedLibrary);
+      centerMap(selectedLibrary.location.latitude, selectedLibrary.location.longitude);
       openMapPopup(selectedLibrary);
     }
 
@@ -58,8 +64,10 @@
       }).addTo(self.map);
     }
 
-    const getLibraries = function() {
-      const apiUrl = `/api/libraries`;
+    const getLibraries = function(latitude, longitude) {
+      const queryParams = latitude && longitude ? `?location=${latitude},${longitude}` : '';
+      const apiUrl = `/api/libraries${queryParams}`;
+      console.log('apiUrl', apiUrl);
       fetch(apiUrl, {method: 'GET', mode: 'cors'}).then(response => {
         response.json().then(data => {
           self.libraries = data;
@@ -88,8 +96,8 @@
       openMapPopup(e.target.options);
     }
 
-    const centerMapOnLibrary = function(library) {
-      self.map.setView(new L.latLng(library.location.latitude, library.location.longitude));
+    const centerMap = function(latitude, longitude) {
+      self.map.setView(new L.latLng(latitude, longitude));
     }
 
     const openMapPopup = function(library) {

@@ -17,7 +17,8 @@ class LibraryList(generics.ListAPIView):
         default_location = Point(-123.120735, 49.282730)
 
         if "location" in self.request.GET:
-            pass
+            latitude, longitude = self.request.GET['location'].split(',')
+            location = Point(float(longitude), float(latitude))
         else:
             location = default_location
 
