@@ -15,7 +15,7 @@
         </div>
       </section>
 
-      <footer>Made by <a href="https://shirleyyin.com">Shirley Yin</a> · <a href="">About this site</a></footer>
+      <footer>made by <a href="https://shirleyyin.com">shirley yin</a> · <a href="">about this site</a></footer>
     </aside>
     <main>
       <div id="map"></div>
