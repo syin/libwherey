@@ -7,7 +7,7 @@
         <a href="" class="near-me" onclick={ nearMe }><span>view libraries near me</span></a>
         <div class="library-list">
           <ul>
-            <li class='library-entry' each={ library in libraries }>
+            <li class='library-entry' each={ library in libraries } onclick={ onClickSidebar }>
               { library.address }
               <img class='library-thumbnail' if={ library.photos } src={ library.photos }>
             </li>
@@ -35,6 +35,14 @@
 
     nearMe() {
       console.log('here');
+    }
+
+    onClickSidebar(e) {
+      const selectedLibrary = e.item.library;
+      console.log("onclicksidebar", selectedLibrary);
+
+      centerMapOnLibrary(selectedLibrary);
+      openMapPopup(selectedLibrary);
     }
 
     const initializeMap = function() {
@@ -66,8 +74,33 @@
 
     const addMapMarkers = function() {
       self.libraries.forEach(library => {
-        const marker = L.marker([library.location.latitude, library.location.longitude]).addTo(self.map);
+        const marker = L.marker(
+          [library.location.latitude, library.location.longitude], library)
+          .addTo(self.map)
+          .on('click', onClickMarker);
       });
+    }
+
+    const onClickMarker = function(e) {
+      const markerId = e.target.options.id;
+      console.log('onClickMarker', markerId, e.target.options.address)
+
+      openMapPopup(e.target.options);
+    }
+
+    const centerMapOnLibrary = function(library) {
+      self.map.setView(new L.latLng(library.location.latitude, library.location.longitude));
+    }
+
+    const openMapPopup = function(library) {
+      const popup = L.popup();
+
+      popup
+        .setLatLng(new L.latLng(library.location.latitude + 0.003, library.location.longitude))
+        .setContent(library.address)
+        .openOn(self.map);
+
+      console.log('popup', popup, library.location.latitude, library.location.longitude)
     }
 
   </script>
