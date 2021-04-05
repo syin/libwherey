@@ -5,7 +5,8 @@
         <h1 class="site-title">lib(where)y</h1>
 
         <div class="near-me">
-          <a href="" onclick={ nearMe }><span>view libraries near me</span></a>
+          <a class="near-me-text" href="" onclick={ nearMe }><span>view libraries near me</span></a>
+          <span class="near-me-error" if={ nearMeError }>{ nearMeError }</span>
         </div>
         <div class="library-list">
           <ul>
@@ -29,6 +30,7 @@
     const self = this;
     self.libraries = [];
     self.map = null;
+    self.nearMeError = null;
 
     self.on('mount', function() {
       initializeMap();
@@ -42,6 +44,12 @@
         console.log('position', position)
         centerMap(position.coords.latitude, position.coords.longitude);
         getLibraries(position.coords.latitude, position.coords.longitude);
+        self.nearMeError = null;
+        self.update();
+      }, (error) => {
+        console.log('error', error)
+        self.nearMeError = `There was an error getting your location: ${error.message}`;
+        self.update();
       });
     }
 

@@ -2,6 +2,7 @@
   --blushpink: #ebc3c3;
   --darkgrey: #343434;
   --darkblue: #171a28;
+  --darkbluelightertint: #2c324d;
   --white: #fff;
 }
 
@@ -57,18 +58,27 @@ footer {
 }
 
 .near-me {
-  display: block;
   margin: 1rem 0;
   padding: 0.3rem 0.6rem;
+}
+
+.near-me-text {
   text-decoration: none;
 }
 
-.near-me>span {
+.near-me-text>span {
   text-decoration: underline;
 }
 
-.near-me:before {
+.near-me-text:before {
   content: '📍 ';
+}
+
+.near-me-error {
+  display: block;
+  margin: 0.6rem 0;
+  padding: 0.3rem 0.5rem;
+  background-color: var(--darkbluelightertint);
 }
 
 .library-list ul {
