@@ -133,7 +133,8 @@
 
     const openMapPopup = function(library) {
       const popup = L.popup({
-        offset: L.point(0, -20)
+        offset: L.point(0, -25),
+        closeButton: false,
       });
 
       popup

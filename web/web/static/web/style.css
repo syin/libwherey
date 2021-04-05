@@ -4,6 +4,7 @@
   --darkblue: #171a28;
   --darkbluelightertint: #2c324d;
   --white: #fff;
+  --bodyfont: "Rubik", sans-serif;
 }
 
 html, body {
@@ -12,7 +13,7 @@ html, body {
   height: 100%;
 
   color: var(--white);
-  font-family: "Rubik", sans-serif;
+  font-family: var(--bodyfont);
   background-color: var(--darkblue);
 }
 
@@ -126,4 +127,16 @@ footer {
       "main"
       "sidebar"
   }
+}
+
+/* Leaflet overrides */
+
+.leaflet-popup-content-wrapper {
+  border-radius: 0!important;
+  box-shadow: none!important;
+  font-family: var(--bodyfont);
+}
+
+.leaflet-popup-tip-container {
+  display: none;
 }
