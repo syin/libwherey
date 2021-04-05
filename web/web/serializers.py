@@ -8,7 +8,8 @@ class LibrarySerializer(serializers.ModelSerializer):
     queryset = Library.objects.all()
 
     location = PointField()
+    source = serializers.CharField(source='get_source_display')
 
     class Meta:
         model = Library
-        fields = ("id", "address", "location", "photos")
+        fields = ("id", "address", "location", "photos", "source")

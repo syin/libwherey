@@ -39,15 +39,12 @@
 
     nearMe(e) {
       e.preventDefault();
-      console.log('here');
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log('position', position)
         centerMap(position.coords.latitude, position.coords.longitude);
         getLibraries(position.coords.latitude, position.coords.longitude);
         self.nearMeError = null;
         self.update();
       }, (error) => {
-        console.log('error', error)
         self.nearMeError = `There was an error getting your location: ${error.message}`;
         self.update();
       });
@@ -55,7 +52,6 @@
 
     onClickSidebar(e) {
       const selectedLibrary = e.item.library;
-      console.log("onclicksidebar", selectedLibrary);
 
       centerMap(selectedLibrary.location.latitude, selectedLibrary.location.longitude);
       openMapPopup(selectedLibrary);
@@ -65,7 +61,7 @@
       self.map = L
         .map('map')
         .setView([49.282730, -123.120735], 13)
-        .on('dragend', reloadMap);
+        .on('zoomend', reloadMap);
 
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -89,10 +85,16 @@
       });
     }
 
-    const getLibraries = function(latitude, longitude) {
-      const queryParams = latitude && longitude ? `?location=${latitude},${longitude}` : '';
-      const apiUrl = `/api/libraries${queryParams}`;
-      console.log('apiUrl', apiUrl);
+    const getLibraries = function(latitude, longitude, radius) {
+      const params = new URLSearchParams();
+      if (latitude && longitude) {
+        params.append('location', `${latitude},${longitude}`);
+      }
+      if (radius) {
+        params.append('radius', radius)
+      }
+
+      const apiUrl = `/api/libraries?${params.toString()}`;
       fetch(apiUrl, {method: 'GET', mode: 'cors'}).then(response => {
         response.json().then(data => {
           self.libraries = data;
@@ -118,17 +120,23 @@
 
     const onClickMarker = function(e) {
       const markerId = e.target.options.id;
-      console.log('onClickMarker', markerId, e.target.options.address)
-
       openMapPopup(e.target.options);
     }
 
     const centerMap = function(latitude, longitude) {
-      self.map.setView(new L.latLng(latitude, longitude));
+      self.map.setView(new L.latLng(latitude, longitude), 13);
     }
 
     const reloadMap = function(e) {
-      console.log('reloadMap', e);
+      const center = self.map.getCenter();
+      const bounds = self.map.getBounds();
+
+      const mapDistanceSpan = haversine(
+        bounds._northEast, bounds._southWest,
+        {format: '{lat,lng}', unit: 'km'});
+      const radius = mapDistanceSpan / 2;
+
+      getLibraries(center.latitude, center.longitude, radius);
     }
 
     const openMapPopup = function(library) {
@@ -139,10 +147,8 @@
 
       popup
         .setLatLng(new L.latLng(library.location.latitude, library.location.longitude))
-        .setContent(library.address)
+        .setContent(`${library.address}<br><em>Source: ${library.source}</em>`)
         .openOn(self.map);
-
-      console.log('popup', popup, library.location.latitude, library.location.longitude)
     }
 
   </script>

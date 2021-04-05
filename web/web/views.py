@@ -22,8 +22,10 @@ class LibraryList(generics.ListAPIView):
         else:
             location = default_location
 
+        radius = self.request.GET.get('radius', '10')
+
         queryset = Library.objects.filter(
-            location__distance_lte=(location, D(m=10000)))
+            location__distance_lte=(location, D(km=radius)))
 
         return queryset
 
