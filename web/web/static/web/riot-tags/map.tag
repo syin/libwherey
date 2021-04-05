@@ -4,7 +4,9 @@
       <section>
         <h1 class="site-title">lib(where)y</h1>
 
-        <a href="" class="near-me" onclick={ nearMe }><span>view libraries near me</span></a>
+        <div class="near-me">
+          <a href="" onclick={ nearMe }><span>view libraries near me</span></a>
+        </div>
         <div class="library-list">
           <ul>
             <li class='library-entry' each={ library in libraries } onclick={ onClickSidebar }>
@@ -52,7 +54,10 @@
     }
 
     const initializeMap = function() {
-      self.map = L.map('map').setView([49.282730, -123.120735], 13);
+      self.map = L
+        .map('map')
+        .setView([49.282730, -123.120735], 13)
+        .on('dragend', reloadMap);
 
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -62,6 +67,18 @@
           zoomOffset: -1,
           accessToken: opts.mapboxApiKey,
       }).addTo(self.map);
+    }
+
+    const getMarker = function() {
+      return L.icon({
+        iconUrl: '/static/web/assets/marker.png',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, -20],
+        shadowUrl: null,
+        shadowSize: null,
+        shadowAnchor: null,
+      });
     }
 
     const getLibraries = function(latitude, longitude) {
@@ -83,7 +100,9 @@
     const addMapMarkers = function() {
       self.libraries.forEach(library => {
         const marker = L.marker(
-          [library.location.latitude, library.location.longitude], library)
+          [library.location.latitude, library.location.longitude], {
+            ...library,
+            icon: getMarker()})
           .addTo(self.map)
           .on('click', onClickMarker);
       });
@@ -100,11 +119,17 @@
       self.map.setView(new L.latLng(latitude, longitude));
     }
 
+    const reloadMap = function(e) {
+      console.log('reloadMap', e);
+    }
+
     const openMapPopup = function(library) {
-      const popup = L.popup();
+      const popup = L.popup({
+        offset: L.point(0, -20)
+      });
 
       popup
-        .setLatLng(new L.latLng(library.location.latitude + 0.003, library.location.longitude))
+        .setLatLng(new L.latLng(library.location.latitude, library.location.longitude))
         .setContent(library.address)
         .openOn(self.map);
 
