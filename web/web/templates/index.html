@@ -1,36 +1,30 @@
+{% extends 'base.html' %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>lib(where)y</title>
-  <link rel="stylesheet" href="{% static 'web/style.css' %}">
+{% block extrastyles %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+ integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+ crossorigin=""/>
+{% endblock extrastyles %}
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-   crossorigin=""/>
+{% block content %}
+<maptest></maptest>
+{% endblock content %}
 
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
-</head>
-<body>
-  <maptest></maptest>
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.13.2/riot+compiler.js"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+  integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+  crossorigin=""></script>
+<!-- <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/haversine@1.1.1/haversine.min.js"></script>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/3.13.2/riot+compiler.js"></script>
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-    crossorigin=""></script>
-  <!-- <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script> -->
-  <script src="https://cdn.jsdelivr.net/npm/haversine@1.1.1/haversine.min.js"></script>
+<script src="{% static 'web/riot-tags/map.tag' %}" type="riot/tag"></script>
 
-  <script src="{% static 'web/riot-tags/map.tag' %}" type="riot/tag"></script>
-
-  <script>
-    riot.mount('maptest', {
-      'mapboxApiKey': "{{ mapbox_api_key }}"
-    });
-  </script>
-</body>
-</html>
+<script>
+  riot.mount('maptest', {
+    'mapboxApiKey': "{{ mapbox_api_key }}"
+  });
+</script>
+{% endblock scripts %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}about | lib(where)y{% endblock title %}
+{% block bodyclass %}page{% endblock %}
+
+{% block content %}
+  <section class="page">
+    <h1><a href="/">lib(where)y</a></h1>
+
+    <p><a href="/">&larr; Back to map</a></p>
+
+    <p>I built this app for fun after keeping track of a few little free library locations in a text file on my phone. See my other projects <a href="https://shirleyyin.com">here</a>.</p>
+
+    <h2>tech stack and resources used</h2>
+    <ul>
+      <li>I forked the <a href="https://github.com/countable-web/countable-modern-django">Countable Modern Django template repo</a>, which sets up a boilerplate app built with Docker and Docker Compose, Django, Vue.js (which I've removed and replaced with <a href="https://v3.riotjs.vercel.app/">Riot.js</a>), and Nginx. I'm also using PostGIS instead of "regular" Postgres.</li>
+      <li>GIS stuff:
+        <ul>
+          <li>I seeded the databse with a list of libraries from the <a href="https://littlefreelibrary.secure.force.com/mapPage">Little Free Libraries</a> map. I don't know if this is technically allowed? But I didn't find anything against it in their usage policies, and I'm not continuously scraping their site (the JSON object is printed in console logs).</li>
+          <li><a href="https://leafletjs.com/">Leaflet.js</a> for mapping.</li>
+          <li>I used <a href="https://nominatim.org/">Nominatim</a> for reverse geocoding the lat/lon coordinates in a one-time batch job.</li>
+          <li>Finally, I used <a href="https://github.com/njj/haversine">this haversine library</a> to handle map filtering after panning or zooming. The haversine algorithm gets the distance between the corners of the visible map, which I use to get the search radius for filtering libraries.</li>
+        </ul>
+      </li>
+      <li>The map marker icon I used is from <a href="https://www.flaticon.com/free-icon/maps-and-flags_447031">flaticon.com</a>.</li>
+    </ul>
+
+    <h2>feature roadmap</h2>
+    <ul>
+      <li>Add more countries! I only have Canada at the moment.</li>
+      <li>Add support for photos.</li>
+      <li>Allow people to submit libraries.</li>
+    </ul>
+  </section>
+{% endblock content %}

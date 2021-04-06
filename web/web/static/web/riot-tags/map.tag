@@ -2,7 +2,7 @@
   <div class="wrapper">
     <aside>
       <section>
-        <h1 class="site-title">lib(where)y</h1>
+        <h1 class="site-title"><a href="/">lib(where)y</a></h1>
 
         <div class="near-me">
           <a class="near-me-text" href="" onclick={ nearMe }><span>view libraries near me</span></a>
@@ -18,7 +18,7 @@
         </div>
       </section>
 
-      <footer>made by <a href="https://shirleyyin.com">shirley yin</a> · <a href="">about this site</a></footer>
+      <footer>made by <a href="https://shirleyyin.com">shirley yin</a> · <a href="/about">about this site</a></footer>
     </aside>
     <main>
       <div id="map"></div>
@@ -147,7 +147,7 @@
 
       popup
         .setLatLng(new L.latLng(library.location.latitude, library.location.longitude))
-        .setContent(`${library.address}<br><em>Source: ${library.source}</em>`)
+        .setContent(`${library.address}<br><em>Source: ${library.source_display}</em>`)
         .openOn(self.map);
     }
 

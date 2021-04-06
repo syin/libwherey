@@ -8,13 +8,18 @@
 }
 
 html, body {
+  height: 100%;
   padding: 0;
   margin: 0;
-  height: 100%;
+  box-sizing: border-box;
 
   color: var(--white);
   font-family: var(--bodyfont);
   background-color: var(--darkblue);
+}
+
+body.page {
+  height: initial;
 }
 
 a {
@@ -45,17 +50,35 @@ main {
 }
 
 footer {
+  padding-bottom: 1rem;
 }
 
 #map {
   height: 100%;
 }
 
-.site-title {
-  margin: 0;
+h1, h2, h3, h4, h5, h6 {
   color: var(--blushpink);
-  font-size: 2.2rem;
   font-weight: 300;
+}
+
+h1 {
+  font-size: 3rem;
+  margin: 2rem 0;
+}
+
+h2 {
+  font-size: 2rem;
+  margin: 1rem 0;
+}
+
+h1.site-title {
+  margin: 0;
+  font-size: 2.2rem;
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
+  text-decoration: none;
 }
 
 .near-me {
@@ -128,6 +151,18 @@ footer {
       "sidebar"
   }
 }
+
+/* Page layouts */
+
+.page {
+  line-height: 1.5;
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  font-size: 1.3rem;
+  box-sizing: border-box;
+}
+
 
 /* Leaflet overrides */
 
