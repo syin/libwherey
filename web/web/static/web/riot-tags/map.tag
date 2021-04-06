@@ -123,7 +123,10 @@
         self.markers.set(hash, marker);
       });
       for (const [hash, marker] of self.markers[Symbol.iterator]()) {
-        if (!currentMarkers.has(hash)) marker.remove();
+        if (!currentMarkers.has(hash)) { 
+          self.markers.delete(hash);
+          marker.remove();
+        }
       }
     }
 
