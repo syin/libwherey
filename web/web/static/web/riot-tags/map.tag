@@ -29,6 +29,7 @@
   <script>
     const self = this;
     self.libraries = [];
+    self.markers = new Map();
     self.map = null;
     self.nearMeError = null;
 
@@ -61,7 +62,8 @@
       self.map = L
         .map('map')
         .setView([49.282730, -123.120735], 13)
-        .on('zoomend', reloadMap);
+        .on('zoomend', reloadMap)
+        .on('dragend', reloadMap);
 
       L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
           attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -108,14 +110,24 @@
     }
 
     const addMapMarkers = function() {
+      const currentMarkers = new Set();
       self.libraries.forEach(library => {
-        const marker = L.marker(
+        const hash = JSON.stringify(library.location);
+        const marker = self.markers.get(hash) ?? L.marker(
           [library.location.latitude, library.location.longitude], {
             ...library,
             icon: getMarker()})
           .addTo(self.map)
           .on('click', onClickMarker);
+        currentMarkers.add(hash);
+        self.markers.set(hash, marker);
       });
+      for (const [hash, marker] of self.markers[Symbol.iterator]()) {
+        if (!currentMarkers.has(hash)) { 
+          self.markers.delete(hash);
+          marker.remove();
+        }
+      }
     }
 
     const onClickMarker = function(e) {
@@ -136,7 +148,7 @@
         {format: '{lat,lng}', unit: 'km'});
       const radius = mapDistanceSpan / 2;
 
-      getLibraries(center.latitude, center.longitude, radius);
+      getLibraries(center.lat, center.lng, radius);
     }
 
     const openMapPopup = function(library) {
