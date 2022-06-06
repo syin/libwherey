@@ -22,8 +22,6 @@ services:
 
   nginx:
     image: nginx:stable
-    ports:
-      - 8007:80
     expose:
       - "80"
     volumes:
